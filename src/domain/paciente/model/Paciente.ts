@@ -17,7 +17,7 @@ export default class Paciente implements PacienteInterface {
     telefono!: string;
 
     @Column()
-    tipo_documento!: string;
+    tipo_documento!: number;
 
     @Column({ unique: true })
     identificacion!: string;
