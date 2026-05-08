@@ -12,6 +12,11 @@ import Documento from "../../../domain/documento/model/Documento";
 import Video from "../../../domain/video/model/Video";
 import Categoria from "../../../domain/categoria/model/Categoria";
 import Typecc from "../../../domain/tipocedula/model/Typecc";
+import multer from "multer";
+
+export const upload = multer({
+  storage: multer.memoryStorage(),
+});
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -21,8 +26,16 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
 
-    synchronize: true, // ⚠️ solo en desarrollo
-    logging: true,
+    ssl: true,
+
+    extra: {
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    },
+
+    synchronize: true,
+    logging: false,
 
     entities: [
         Categoria,

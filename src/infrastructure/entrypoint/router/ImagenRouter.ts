@@ -1,29 +1,29 @@
 /**
  * @swagger
  * tags:
- *   name: Categorias
+ *   name: Imagens
  *   description: API para gestión de categorías
  */
 
 import { Router } from "express";
-import CategoriaHandler from "../handler/CategoriaHandler";
-import CategoriaUsecase from "../../../application/usecase/CategoriaUsecase";
-import Adapter from "../../adapter/postgres/categoria/adapter/Adapter";
+import ImagenHandler from "../handler/ImagenHandler";
+import ImagenUsecase from "../../../application/usecase/ImagenUsecase";
+import Adapter from "../../adapter/postgres/imagen/adapter/Adapter";
 
 const router = Router();
-const handler = new CategoriaHandler(
-  new CategoriaUsecase(new Adapter())
+const handler = new ImagenHandler(
+  new ImagenUsecase(new Adapter())
 );
 
 /**
  * @swagger
- * /categorias:
+ * /imagenes:
  *   get:
- *     summary: Obtener todas las categorías
- *     tags: [Categorias]
+ *     summary: Obtener todos los médicos
+ *     tags: [Imagens]
  *     responses:
  *       200:
- *         description: Lista de categorías obtenida exitosamente
+ *         description: Lista de médicos obtenida exitosamente
  *       500:
  *         description: Error interno del servidor
  */
@@ -31,22 +31,22 @@ router.get("/", handler.getAll);
 
 /**
  * @swagger
- * /categorias/{id}:
+ * /imagenes/{id}:
  *   get:
- *     summary: Obtener una categoría por ID
- *     tags: [Categorias]
+ *     summary: Obtener un médico por ID
+ *     tags: [Imagens]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID de la categoría
+ *         description: ID del médico
  *     responses:
  *       200:
- *         description: Categoría obtenida exitosamente
+ *         description: Médico obtenido exitosamente
  *       404:
- *         description: Categoría no encontrada
+ *         description: Médico no encontrado
  *       500:
  *         description: Error interno del servidor
  */
@@ -54,10 +54,10 @@ router.get("/:id", handler.getById);
 
 /**
  * @swagger
- * /categorias:
+ * /imagenes:
  *   post:
- *     summary: Crear una nueva categoría
- *     tags: [Categorias]
+ *     summary: Crear una nuevo médico
+ *     tags: [Imagens]
  *     requestBody:
  *       required: true
  *       content:
@@ -72,7 +72,7 @@ router.get("/:id", handler.getById);
  *                 example: Radiología
  *     responses:
  *       201:
- *         description: Categoría creada exitosamente
+ *         description: Médico creado exitosamente
  *       400:
  *         description: Datos inválidos
  *       500:
@@ -82,10 +82,10 @@ router.post("/", handler.create);
 
 /**
  * @swagger
- * /categorias:
+ * /imagenes:
  *   put:
- *     summary: Actualizar una categoría
- *     tags: [Categorias]
+ *     summary: Actualizar un médico
+ *     tags: [Imagens]
  *     requestBody:
  *       required: true
  *       content:
@@ -100,11 +100,11 @@ router.post("/", handler.create);
  *                 example: Cardiología
  *     responses:
  *       200:
- *         description: Categoría actualizada exitosamente
+ *         description: Médico actualizado exitosamente
  *       400:
  *         description: Datos inválidos
  *       404:
- *         description: Categoría no encontrada
+ *         description: Médico no encontrado
  *       500:
  *         description: Error interno del servidor
  */
@@ -112,22 +112,22 @@ router.put("/:id", handler.update);
 
 /**
  * @swagger
- * /categorias/{id}:
+ * /imagenes/{id}:
  *   delete:
- *     summary: Eliminar una categoría
- *     tags: [Categorias]
+ *     summary: Eliminar un médico
+ *     tags: [Imagens]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID de la categoría
+ *         description: ID del médico
  *     responses:
  *       200:
- *         description: Categoría eliminada exitosamente
+ *         description: Médico eliminado exitosamente
  *       404:
- *         description: Categoría no encontrada
+ *         description: Médico no encontrado
  *       500:
  *         description: Error interno del servidor
  */

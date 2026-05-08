@@ -17,7 +17,7 @@ import Video from "../../video/model/Video";
 export default class Procedimiento {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id?: number;
 
     @Column()
     nombre!: string;
@@ -25,28 +25,11 @@ export default class Procedimiento {
     // 🔹 Relación con Categoria
     @ManyToOne(() => Categoria)
     @JoinColumn({ name: "categoria_id" })
-    categoria!: Categoria;
+    categoria_id!: Categoria;
 
     // 🔹 Relación con Paciente
     @ManyToOne(() => Paciente)
     @JoinColumn({ name: "paciente_id" })
-    paciente!: Paciente;
+    paciente_id!: Paciente;
 
-    // 🔹 Relación con Imagenes
-    @OneToMany(() => Imagen, (imagen) => imagen.procedimientoId, {
-        cascade: true
-    })
-    imagenes!: Imagen[];
-
-    // 🔹 Relación con Documentos
-    @OneToMany(() => Documento, (documento) => documento.procedimientoId, {
-        cascade: true
-    })
-    documentos!: Documento[];
-
-    // 🔹 Relación con Videos
-    @OneToMany(() => Video, (video) => video.procedimientoId, {
-        cascade: true
-    })
-    videos!: Video[];
 }

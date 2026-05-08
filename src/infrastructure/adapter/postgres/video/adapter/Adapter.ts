@@ -22,5 +22,8 @@ export default class Adapter implements VideoGateway {
         await this.repo.delete(id);
         return true;
     }
+    async getByProcedimiento(procedimiento_id: number): Promise<Array<Video>> {
+        return this.repo.findBy({ procedimiento_id });
+    }
 
 }

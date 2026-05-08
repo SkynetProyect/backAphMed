@@ -6,4 +6,5 @@ export default interface VideoGateway{
     create(Video: Video): Promise<Video>;
     update(Video: Video): Promise<Video>;
     delete(id: number): Promise<boolean>;
+    getByProcedimiento(procedimiento_id: number): Promise<Array<Video>>;
 }

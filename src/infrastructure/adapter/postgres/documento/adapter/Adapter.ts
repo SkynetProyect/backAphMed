@@ -3,6 +3,7 @@ import Documento from "../../../../../domain/documento/model/Documento";
 import { AppDataSource } from "../../DataSource";
 
 export default class Adapter implements DocumentoGateway {
+
     private readonly repo = AppDataSource.getRepository(Documento);
 
     async getAll(): Promise<Array<Documento>> {
@@ -21,6 +22,9 @@ export default class Adapter implements DocumentoGateway {
     async delete(id: number): Promise<boolean> {
         await this.repo.delete(id);
         return true;
+    }
+    async getByProcedimiento(procedimiento_id: number): Promise<Array<Documento>> {
+        return this.repo.findBy({ procedimiento_id });
     }
 
 }

@@ -5,13 +5,13 @@ import type DocumentoInterface from "../interface/DocumentoInterface";
 export default class Documento implements DocumentoInterface {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id?: number;
 
     @Column({ default: "Sin nombre", nullable: true })
     nombre?: string;
 
     @Column()
-    procedimientoId!: number;
+    procedimiento_id!: number;
 
     @Column()
     url!: string;

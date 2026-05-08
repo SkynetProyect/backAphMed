@@ -1,6 +1,6 @@
 export default interface DocumentoInterface {
     id?: number;
     nombre?: string;
-    procedimientoId: number;
+    procedimiento_id: number;
     url: string;
 }

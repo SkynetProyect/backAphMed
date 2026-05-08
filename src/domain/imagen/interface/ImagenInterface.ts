@@ -1,6 +1,6 @@
 export default interface ImagenInterface {
     id?: number;
-    procedimientoId: number;
+    procedimiento_id: number;
     nombre?: string;
     url: string;
 }

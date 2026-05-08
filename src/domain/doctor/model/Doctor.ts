@@ -5,7 +5,7 @@ import type DoctorInterface from "../interface/DoctorInterface";
 export default class Doctor implements DoctorInterface {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id?: number;
 
     @Column({ unique: true })
     usuario!: string;

@@ -5,7 +5,7 @@ import type PacienteInterface from "../interface/PacienteInterface";
 export default class Paciente implements PacienteInterface {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id?: number;
 
     @Column()
     nombre!: string;

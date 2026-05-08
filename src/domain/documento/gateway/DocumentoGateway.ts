@@ -6,4 +6,5 @@ export default interface DocumentoGateway{
     create(Documento: Documento): Promise<Documento>;
     update(Documento: Documento): Promise<Documento>;
     delete(id: number): Promise<boolean>;
+    getByProcedimiento(procedimiento_id: number): Promise<Array<Documento>>;
 }

@@ -23,4 +23,8 @@ export default class Adapter implements ImagenGateway {
         return true;
     }
 
+    async getByProcedimiento(procedimiento_id: number): Promise<Array<Imagen>> {
+        return this.repo.findBy({ procedimiento_id });
+    }
+
 }

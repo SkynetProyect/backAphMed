@@ -1,5 +1,5 @@
 export default interface VideoInterface {
     id?: number;
     url: string;
-    procedimientoId: number;
+    procedimiento_id: number;
 }

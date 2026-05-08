@@ -5,13 +5,13 @@ import type ImagenInterface from "../interface/ImagenInterface";
 export default class Imagen implements ImagenInterface {
 
     @PrimaryGeneratedColumn()
-    id!: number;
+    id?: number;
 
     @Column({ nullable: true })
     nombre?: string;
 
     @Column()
-    procedimientoId!: number;
+    procedimiento_id!: number;
 
     @Column()
     url!: string;
