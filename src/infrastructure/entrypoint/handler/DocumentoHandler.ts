@@ -4,6 +4,7 @@ import Response from "../dto/Response";
 import { validate } from "class-validator";
 import { plainToInstance } from "class-transformer";
 import { DocumentoDto } from "../dto/DocumentoDto";
+import { uploadFile } from "../../adapter/storage/client";
 
 export default class DocumentoHandler {
 
@@ -32,7 +33,11 @@ export default class DocumentoHandler {
     
     create = async (req: Request, res: ExpressResponse) => {
         try {
+            const fileBuffer = req.file?.buffer;
             const dto = plainToInstance(DocumentoDto, req.body);
+            const respuesta = await uploadFile(fileBuffer as Buffer, `documentos/${Date.now()}_${req.file?.originalname}`);
+            console.log("URL de archivo subido:", respuesta);
+            dto.url = respuesta || undefined;
             const errors = await validate(dto);
             if (errors.length > 0) {
                 res.status(400).json(new Response(400, "Datos de entrada inválidos", errors));

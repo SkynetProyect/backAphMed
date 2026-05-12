@@ -22,8 +22,9 @@ export class DocumentoDto {
   @Min(1)
   procedimiento_id!: number;
 
+  @IsOptional()
   @IsUrl()
   @Length(1, 255)
-  url!: string;
+  url?: string;
 
 }

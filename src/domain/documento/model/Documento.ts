@@ -13,6 +13,7 @@ export default class Documento implements DocumentoInterface {
     @Column()
     procedimiento_id!: number;
 
-    @Column()
-    url!: string;
+    @Column({ nullable: true })
+    url?: string;
+
 }

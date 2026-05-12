@@ -9,8 +9,10 @@ import { Router } from "express";
 import DocumentoHandler from "../handler/DocumentoHandler";
 import DocumentoUsecase from "../../../application/usecase/DocumentoUsecase";
 import Adapter from "../../adapter/postgres/documento/adapter/Adapter";
+import multer from 'multer';
 
 const router = Router();
+const upload = multer({ storage: multer.memoryStorage() });
 const handler = new DocumentoHandler(
   new DocumentoUsecase(new Adapter())
 );
@@ -56,29 +58,37 @@ router.get("/:id", handler.getById);
  * @swagger
  * /documentos:
  *   post:
- *     summary: Crear una nuevo médico
+ *     summary: Crear un nuevo documento
  *     tags: [Documentos]
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             required:
- *               - nombre
+ *               - procedimiento_id
+ *               - file
  *             properties:
  *               nombre:
  *                 type: string
- *                 example: Radiología
+ *                 example: Documento de radiología
+ *               procedimiento_id:
+ *                 type: integer
+ *                 example: 1
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: Archivo del documento
  *     responses:
  *       201:
- *         description: Médico creado exitosamente
+ *         description: Documento creado exitosamente
  *       400:
  *         description: Datos inválidos
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", handler.create);
+router.post("/", upload.single('file'), handler.create);
 
 /**
  * @swagger
