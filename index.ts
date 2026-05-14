@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import express from "express";
 import cors from "cors";
+import http from "http";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./src/infrastructure/entrypoint/middleware/swagger";
 import categoriaRouter from "./src/infrastructure/entrypoint/router/CategoriaRouter";
@@ -11,13 +12,15 @@ import pacienteRouter from "./src/infrastructure/entrypoint/router/PacienteRoute
 import procedimientoRouter from "./src/infrastructure/entrypoint/router/ProcedimientoRouter";
 import typeccRouter from "./src/infrastructure/entrypoint/router/TypeccRouter";
 import videoRouter from "./src/infrastructure/entrypoint/router/VideoRouter";
+import { ServerSocket } from "./src/infrastructure/entrypoint/socket/socket";
 import { AppDataSource } from "./src/infrastructure/adapter/postgres/DataSource";
 
 const app = express();
-
 app.use(cors());
-
 app.use(express.json());
+const httpServer = http.createServer(app);
+
+
 
 app.use("/apidocs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/categorias", categoriaRouter);
@@ -29,12 +32,14 @@ app.use("/procedimientos", procedimientoRouter);
 app.use("/tipocedulas", typeccRouter);
 app.use("/videos", videoRouter);
 
+new ServerSocket(httpServer);
+
 AppDataSource.initialize()
     .then(() => {
         console.log("DB conectada correctamente");
 
-        app.listen(3000, () => {
-            console.log("API corriendo en http://localhost:3000");
+        httpServer.listen(3000, () => {
+            console.log("API + WS corriendo en ws://localhost:3000");
         });
     })
     .catch((error) => {

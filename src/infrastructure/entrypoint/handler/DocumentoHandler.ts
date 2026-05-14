@@ -34,10 +34,12 @@ export default class DocumentoHandler {
     create = async (req: Request, res: ExpressResponse) => {
         try {
             const fileBuffer = req.file?.buffer;
+            const nombre: string = `documentos/${Date.now()}_${req.file?.originalname}`;
             const dto = plainToInstance(DocumentoDto, req.body);
-            const respuesta = await uploadFile(fileBuffer as Buffer, `documentos/${Date.now()}_${req.file?.originalname}`);
+            const respuesta = await uploadFile(fileBuffer as Buffer, nombre);
             console.log("URL de archivo subido:", respuesta);
             dto.url = respuesta || undefined;
+            dto.nombre = nombre;
             const errors = await validate(dto);
             if (errors.length > 0) {
                 res.status(400).json(new Response(400, "Datos de entrada inválidos", errors));
@@ -49,6 +51,7 @@ export default class DocumentoHandler {
             res.json(new Response(500, error as string, null));
         }
     };
+    
 
     update = async (req: Request, res: ExpressResponse) => {
         try {
