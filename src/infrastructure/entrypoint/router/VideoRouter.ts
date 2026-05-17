@@ -10,6 +10,8 @@ import { jwtGuard } from "../middleware/jwt";
 import VideoHandler from "../handler/VideoHandler";
 import VideoUsecase from "../../../application/usecase/VideoUsecase";
 import Adapter from "../../adapter/postgres/video/adapter/Adapter";
+import multer from "multer";
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router = Router();
 const handler = new VideoHandler(
@@ -81,7 +83,7 @@ router.get("/:id", handler.getById);
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", handler.create);
+router.post("/", upload.single('file'), handler.create);
 
 /**
  * @swagger

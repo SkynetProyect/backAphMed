@@ -54,7 +54,8 @@ export default class DocumentoHandler {
             // 📌 3. Subir archivo
             const respuesta = await uploadFile(
                 req.file.buffer,
-                nombre
+                nombre,
+                req.file.mimetype
             );
 
             console.log("URL de archivo subido:", respuesta);
@@ -142,6 +143,8 @@ export default class DocumentoHandler {
         try {
             const procedimiento_id = Number(req.params.id);
             const data = await this.usecase.getByProcedimiento(procedimiento_id);
+            console.log(data);
+            console.info(data);
 
             res.json(new Response(200, "Documentos obtenidas exitosamente", data));
         } catch (error) {

@@ -13,24 +13,42 @@ const cliente = createClient(
   }
 );
 
-export async function uploadFile(file: Buffer,filePath: string
+export async function uploadFile(
+    file: Buffer,
+    filePath: string,
+    mimeType: string
 ): Promise<string | null> {
-  const { error } = await cliente.storage
-    .from(process.env.SUPABASE_BUCKET as string)
-    .upload(filePath, file);
 
-  if (error) {
-    console.error("Error uploading file:", error);
-    return null;
-  }
+    const { error } = await cliente.storage
+        .from(process.env.SUPABASE_BUCKET as string)
+        .upload(filePath, file, {
 
-  const { data } = cliente.storage
-    .from(process.env.SUPABASE_BUCKET as string)
-    .getPublicUrl(filePath);
+            /* 📌 Metadata correcta */
+            contentType: mimeType,
 
-  return data.publicUrl;
+            /* 📌 permite reemplazar */
+            upsert: true
+
+        });
+
+    if (error) {
+
+        console.error(
+            "Error uploading file:",
+            error
+        );
+
+        return null;
+
+    }
+
+    const { data } = cliente.storage
+        .from(process.env.SUPABASE_BUCKET as string)
+        .getPublicUrl(filePath);
+
+    return data.publicUrl;
+
 }
-
 
 export async function deleteFile(objectPaths: string[]): Promise<boolean> {
   const { error } = await cliente.storage

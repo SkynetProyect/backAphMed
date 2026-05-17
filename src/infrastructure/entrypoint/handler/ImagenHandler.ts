@@ -53,7 +53,8 @@ export default class ImagenHandler {
             // 📌 3. Subir archivo
             const respuesta = await uploadFile(
                 req.file.buffer,
-                nombre
+                nombre,
+                req.file.mimetype
             );
 
             console.log("URL de archivo subido:", respuesta);
