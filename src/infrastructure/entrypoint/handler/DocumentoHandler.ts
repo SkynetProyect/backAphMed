@@ -32,29 +32,81 @@ export default class DocumentoHandler {
 
     
     create = async (req: Request, res: ExpressResponse) => {
+
         try {
+
             if (!req.file) {
                 res.status(400).json(
                     new Response(400, "Debe enviar un archivo", null)
                 );
                 return;
             }
-            const fileBuffer = req.file?.buffer;
-            const nombre: string = `documentos/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
-            const dto = plainToInstance(DocumentoDto, req.body);
-            const respuesta = await uploadFile(fileBuffer as Buffer, nombre);
+
+            // 📌 1. Parsear metadata del FormData
+            const dto = plainToInstance(
+                DocumentoDto,
+                JSON.parse(req.body.data)
+            );
+
+            // 📌 2. Nombre del archivo
+            const nombre = `documentos/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
+
+            // 📌 3. Subir archivo
+            const respuesta = await uploadFile(
+                req.file.buffer,
+                nombre
+            );
+
             console.log("URL de archivo subido:", respuesta);
-            dto.url = respuesta || undefined;
-            dto.nombre = nombre;
-            const errors = await validate(dto);
-            if (errors.length > 0) {
-                res.status(400).json(new Response(400, "Datos de entrada inválidos", errors));
+
+            if (!respuesta) {
+                res.status(500).json(
+                    new Response(500, "Error subiendo archivo", null)
+                );
                 return;
             }
+
+            // 📌 4. completar DTO
+            dto.url = respuesta;
+            dto.nombre = nombre;
+
+            // 📌 5. validar
+            const errors = await validate(dto);
+
+            if (errors.length > 0) {
+                res.status(400).json(
+                    new Response(
+                        400,
+                        "Datos de entrada inválidos",
+                        errors
+                    )
+                );
+                return;
+            }
+
+            // 📌 6. guardar en DB
             const data = await this.usecase.create(dto);
-            res.status(201).json(new Response(201, "Documento creada exitosamente", data));
+
+            res.status(201).json(
+                new Response(
+                    201,
+                    "Documento creada exitosamente",
+                    data
+                )
+            );
+
         } catch (error) {
-            res.json(new Response(500, error as string, null));
+
+            res.status(500).json(
+                new Response(
+                    500,
+                    error instanceof Error
+                        ? error.message
+                        : "Error interno",
+                    null
+                )
+            );
+
         }
     };
     
@@ -96,4 +148,15 @@ export default class DocumentoHandler {
             res.json(new Response(500, error as string, null));
         }
     }
+
+    deleteByProcedimiento = async (req: Request, res: ExpressResponse) => {
+        try{
+        const procedimiento_id = Number(req.params.id);
+        const data = this.usecase.deleteByProcedimiento(procedimiento_id);
+        res.json(new Response(200, "Imagens borradas", data));
+        } catch(error){
+            res.json(new Response(500, error as string, null))
+        }
+    };
+
 }

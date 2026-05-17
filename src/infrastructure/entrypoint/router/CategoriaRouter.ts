@@ -6,6 +6,7 @@
  */
 
 import { Router } from "express";
+import { jwtGuard } from "../middleware/jwt";
 import CategoriaHandler from "../handler/CategoriaHandler";
 import CategoriaUsecase from "../../../application/usecase/CategoriaUsecase";
 import Adapter from "../../adapter/postgres/categoria/adapter/Adapter";
@@ -14,6 +15,8 @@ const router = Router();
 const handler = new CategoriaHandler(
   new CategoriaUsecase(new Adapter())
 );
+
+router.use(jwtGuard);
 
 /**
  * @swagger

@@ -1,9 +1,12 @@
 import { Request, Response as ExpressResponse } from "express";
+import jwt from "jsonwebtoken";
 import PacienteUsecase from "../../../application/usecase/PacienteUsecase";
 import Response from "../dto/Response";
 import { validate } from "class-validator";
 import { plainToInstance } from "class-transformer";
 import { PacienteDto } from "../dto/PacienteDto";
+
+const JWT_SECRET = process.env.JWT_SECRET || "default_jwt_secret";
 
 export default class PacienteHandler {
 
@@ -75,12 +78,12 @@ export default class PacienteHandler {
             const { identificacion, password } = req.body;
             const data = await this.usecase.login(identificacion, password);
             if (data.id) {
-                res.json(new Response(200, "Login exitoso", data));
+                const token = jwt.sign({ id: data.id, identificacion: data.identificacion }, JWT_SECRET, { expiresIn: "1h" });
+                res.json(new Response(200, "Login exitoso", { paciente: data, token }));
             } else {
-                res.status(200).json(new Response(401, "Credenciales inválidas", null));
+                res.status(401).json(new Response(401, "Credenciales inválidas", null));
             }
         } catch (error) {
             res.json(new Response(500, error as string, null));
         }
-    };
-}
+    };}

@@ -1,9 +1,11 @@
 import "reflect-metadata";
+import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import http from "http";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./src/infrastructure/entrypoint/middleware/swagger";
+import { jwtGuard } from "./src/infrastructure/entrypoint/middleware/jwt";
 import categoriaRouter from "./src/infrastructure/entrypoint/router/CategoriaRouter";
 import doctorRouter from "./src/infrastructure/entrypoint/router/DoctorRouter";
 import documentoRouter from "./src/infrastructure/entrypoint/router/DocumentoRouter";
@@ -15,9 +17,11 @@ import videoRouter from "./src/infrastructure/entrypoint/router/VideoRouter";
 import { ServerSocket } from "./src/infrastructure/entrypoint/socket/socket";
 import { AppDataSource } from "./src/infrastructure/adapter/postgres/DataSource";
 
+dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(jwtGuard);
 const httpServer = http.createServer(app);
 
 

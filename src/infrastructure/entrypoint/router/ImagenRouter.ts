@@ -6,6 +6,7 @@
  */
 
 import { Router } from "express";
+import { jwtGuard } from "../middleware/jwt";
 import ImagenHandler from "../handler/ImagenHandler";
 import ImagenUsecase from "../../../application/usecase/ImagenUsecase";
 import Adapter from "../../adapter/postgres/imagen/adapter/Adapter";
@@ -16,6 +17,8 @@ const router = Router();
 const handler = new ImagenHandler(
   new ImagenUsecase(new Adapter())
 );
+
+router.use(jwtGuard);
 
 /**
  * @swagger
@@ -157,4 +160,6 @@ router.delete("/:id", handler.delete);
  *         description: Error interno del servidor
  */
 router.get("/byProcedimiento/:id", handler.getByProcedimiento)
+
+router.delete("/byProcedimiento/:id", handler.deleteByProcedimiento)
 export default router;

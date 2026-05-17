@@ -48,7 +48,7 @@ export default class ImagenHandler {
             );
 
             // 📌 2. Nombre del archivo
-            const nombre = `documentos/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
+            const nombre = `imagenes/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
 
             // 📌 3. Subir archivo
             const respuesta = await uploadFile(
@@ -145,5 +145,15 @@ export default class ImagenHandler {
         } catch (error) {
             res.json(new Response(500, error as string, null));
         }
-    }
+    };
+
+    deleteByProcedimiento = async (req: Request, res: ExpressResponse) => {
+        try{
+        const procedimiento_id = Number(req.params.id);
+        const data = this.usecase.deleteByProcedimiento(procedimiento_id);
+        res.json(new Response(200, "Imagens borradas", data));
+        } catch(error){
+            res.json(new Response(500, error as string, null))
+        }
+    };
 }

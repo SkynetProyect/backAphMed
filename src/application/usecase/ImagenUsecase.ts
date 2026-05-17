@@ -30,4 +30,7 @@ export default class ImagenUsecase {
     public getByProcedimiento(procedimiento_id: number): Promise<Array<Imagen>> {
         return this.gateway.getByProcedimiento(procedimiento_id);
     }
+    public deleteByProcedimiento(procedimiento_id:number): Promise<boolean>{
+        return this.gateway.deleteByProcedimiento(procedimiento_id);
+    };
 }

@@ -6,6 +6,7 @@
  */
 
 import { Router } from "express";
+import { jwtGuard } from "../middleware/jwt";
 import DoctorHandler from "../handler/DoctorHandler";
 import DoctorUsecase from "../../../application/usecase/DoctorUsecase";
 import Adapter from "../../adapter/postgres/doctor/adapter/Adapter";
@@ -14,6 +15,8 @@ const router = Router();
 const handler = new DoctorHandler(
   new DoctorUsecase(new Adapter())
 );
+
+router.use(jwtGuard);
 
 /**
  * @swagger

@@ -27,4 +27,29 @@ export default class Adapter implements ImagenGateway {
         return this.repo.findBy({ procedimiento_id });
     }
 
+    async deleteByProcedimiento(procedimiento_id:number): Promise<boolean>{
+        try {
+
+            const objetos = await this.repo.findBy({
+                procedimiento_id
+            });
+
+            for (const objeto of objetos) {
+
+                await this.repo.delete(objeto.id!);
+
+            }
+
+            return true;
+
+        } catch (error) {
+
+            console.error(error);
+
+            return false;
+
+        }
+
+    }
+
 }

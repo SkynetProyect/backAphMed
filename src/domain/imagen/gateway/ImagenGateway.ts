@@ -7,4 +7,5 @@ export default interface ImagenGateway{
     update(Imagen: Imagen): Promise<Imagen>;
     delete(id: number): Promise<boolean>;
     getByProcedimiento(procedimiento_id: number): Promise<Array<Imagen>>;
+    deleteByProcedimiento(procedimiento_id:number): Promise<boolean>;
 }

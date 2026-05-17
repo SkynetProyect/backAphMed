@@ -6,6 +6,7 @@
  */
 
 import { Router } from "express";
+import { jwtGuard } from "../middleware/jwt";
 import TypeccHandler from "../handler/TypeccHandler";
 import TypeccUsecase from "../../../application/usecase/TypeccUsecase";
 import Adapter from "../../adapter/postgres/tipocedula/adapter/Adapter";
@@ -14,6 +15,8 @@ const router = Router();
 const handler = new TypeccHandler(
   new TypeccUsecase(new Adapter())
 );
+
+router.use(jwtGuard);
 
 /**
  * @swagger
