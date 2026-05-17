@@ -5,7 +5,8 @@ const JWT_SECRET = process.env.JWT_SECRET || "default_jwt_secret";
 
 export const jwtGuard = (req: Request, res: Response, next: NextFunction) => {
     const requestPath = req.originalUrl.split("?")[0].replace(/\/+$/, "");
-    if (requestPath === "/pacientes/login" || requestPath.startsWith("/apidocs")) {
+    if (requestPath === "/pacientes/login" || requestPath.startsWith("/apidocs") || 
+        requestPath === "/tipocedulas") {
         return next();
     }
 
