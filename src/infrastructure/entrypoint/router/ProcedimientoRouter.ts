@@ -19,11 +19,11 @@ const handler = new ProcedimientoHandler(
  * @swagger
  * /procedimientos:
  *   get:
- *     summary: Obtener todos los médicos
+ *     summary: Obtener todos los procedimientos
  *     tags: [Procedimientos]
  *     responses:
  *       200:
- *         description: Lista de médicos obtenida exitosamente
+ *         description: Lista de procedimientos obtenida exitosamente
  *       500:
  *         description: Error interno del servidor
  */
@@ -133,4 +133,26 @@ router.put("/:id", handler.update);
  */
 router.delete("/:id", handler.delete);
 
+/**
+ * @swagger
+ * /procedimientos/paciente/{paciente_id}:
+ *   get:
+ *     summary: Obtener lista de procedimientos por id del paciente
+ *     tags: [Procedimientos]
+ *     parameters:
+ *       - in: path
+ *         name: paciente_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del paciente
+ *     responses:
+ *       200:
+ *         description: Procedimientos obtenidos exitosamente
+ *       404:
+ *         description: Procedimientos no encontrados
+ *       500:
+ *         description: Error interno del servidor
+ */
+router.get("/paciente/:paciente_id", handler.getByPaciente);
 export default router;

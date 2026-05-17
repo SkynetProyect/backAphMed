@@ -18,16 +18,18 @@ export default class ProcedimientoHandler {
             procedimiento.id = dto.id;
         }
         procedimiento.nombre = dto.nombre;
-        procedimiento.categoria_id = new Categoria();
-        procedimiento.categoria_id.id = dto.categoria_id;
-        procedimiento.paciente_id = new Paciente();
-        procedimiento.paciente_id.id = dto.paciente_id;
+        procedimiento.categoria_id = dto.categoria_id;
+        procedimiento.descripcion = dto.descripcion;
+        procedimiento.paciente_id = dto.paciente_id;
         return procedimiento;
     }
 
     getAll = async (req: Request, res: ExpressResponse) => {
         try {
             const data = await this.usecase.getAll();
+            
+            console.log(data);
+            console.info(data);
             res.json(new Response(200, "Procedimientos obtenidas exitosamente", data));
         } catch (error) {
             res.json(new Response(500, error as string, null));
@@ -87,4 +89,15 @@ export default class ProcedimientoHandler {
             res.json(new Response(500, error as string, null));
         }
     };
+
+    getByPaciente = async (req: Request, res: ExpressResponse) => {
+        try {
+            const paciente_id = Number(req.params.paciente_id);
+            const data = await this.usecase.getByPaciente(paciente_id);
+
+            res.json(new Response(200, "Procedimientos obtenidos exitosamente", data));
+        } catch (error) {
+            res.json(new Response(500, error as string, null));
+        }
+    }
 }

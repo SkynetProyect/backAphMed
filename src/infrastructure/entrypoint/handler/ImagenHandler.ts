@@ -31,17 +31,45 @@ export default class ImagenHandler {
     };
 
     create = async (req: Request, res: ExpressResponse) => {
+
         try {
 
-            const file = req.file;
-            if (!file) {
+            if (!req.file) {
                 res.status(400).json(
-                    new Response(400, "Archivo requerido", null)
+                    new Response(400, "Debe enviar un archivo", null)
                 );
                 return;
             }
 
-            const dto = plainToInstance(ImagenDto, req.body);
+            // 📌 1. Parsear metadata del FormData
+            const dto = plainToInstance(
+                ImagenDto,
+                JSON.parse(req.body.data)
+            );
+
+            // 📌 2. Nombre del archivo
+            const nombre = `documentos/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
+
+            // 📌 3. Subir archivo
+            const respuesta = await uploadFile(
+                req.file.buffer,
+                nombre
+            );
+
+            console.log("URL de archivo subido:", respuesta);
+
+            if (!respuesta) {
+                res.status(500).json(
+                    new Response(500, "Error subiendo archivo", null)
+                );
+                return;
+            }
+
+            // 📌 4. completar DTO
+            dto.url = respuesta;
+            dto.nombre = nombre;
+
+            // 📌 5. validar
             const errors = await validate(dto);
 
             if (errors.length > 0) {
@@ -55,15 +83,13 @@ export default class ImagenHandler {
                 return;
             }
 
-            const fileBuffer = file.buffer;
-            const fileName = file.originalname;
-            const url = await uploadFile(fileBuffer, fileName);
-            dto.url = url as string;
+            // 📌 6. guardar en DB
             const data = await this.usecase.create(dto);
+
             res.status(201).json(
                 new Response(
                     201,
-                    "Imagen creada exitosamente",
+                    "Documento creada exitosamente",
                     data
                 )
             );
@@ -73,7 +99,9 @@ export default class ImagenHandler {
             res.status(500).json(
                 new Response(
                     500,
-                    error as string,
+                    error instanceof Error
+                        ? error.message
+                        : "Error interno",
                     null
                 )
             );
@@ -110,7 +138,7 @@ export default class ImagenHandler {
 
     getByProcedimiento = async (req: Request, res: ExpressResponse) => {
         try {
-            const procedimiento_id = Number(req.params.procedimiento_id);
+            const procedimiento_id = Number(req.params.id);
             const data = await this.usecase.getByProcedimiento(procedimiento_id);
 
             res.json(new Response(200, "Imagens obtenidas exitosamente", data));

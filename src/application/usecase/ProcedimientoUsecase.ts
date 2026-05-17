@@ -27,4 +27,7 @@ export default class ProcedimientoUsecase {
     public delete(id: number): Promise<boolean> {
         return this.gateway.delete(id);
     }
+    public getByPaciente(paciente_id: number): Promise<Array<Procedimiento>>{
+        return this.gateway.getByPaciente(paciente_id);
+    };
 }

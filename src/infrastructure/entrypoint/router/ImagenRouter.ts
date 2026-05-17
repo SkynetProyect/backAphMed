@@ -9,7 +9,9 @@ import { Router } from "express";
 import ImagenHandler from "../handler/ImagenHandler";
 import ImagenUsecase from "../../../application/usecase/ImagenUsecase";
 import Adapter from "../../adapter/postgres/imagen/adapter/Adapter";
+import multer from 'multer';
 
+const upload = multer({ storage: multer.memoryStorage() });
 const router = Router();
 const handler = new ImagenHandler(
   new ImagenUsecase(new Adapter())
@@ -78,7 +80,7 @@ router.get("/:id", handler.getById);
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", handler.create);
+router.post("/", upload.single('file'), handler.create);
 
 /**
  * @swagger
@@ -133,4 +135,26 @@ router.put("/:id", handler.update);
  */
 router.delete("/:id", handler.delete);
 
+/**
+ * @swagger
+ * /imagenes/{byProcedimiento/id}:
+ *   get:
+ *     summary: Obtener un médico por ID
+ *     tags: [Imagens]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del médico
+ *     responses:
+ *       200:
+ *         description: Médico obtenido exitosamente
+ *       404:
+ *         description: Médico no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
+router.get("/byProcedimiento/:id", handler.getByProcedimiento)
 export default router;

@@ -133,4 +133,36 @@ router.put("/:id", handler.update);
  */
 router.delete("/:id", handler.delete);
 
+/**
+ * @swagger
+ * /pacientes/login:
+ *   post:
+ *     summary: Iniciar sesión como paciente
+ *     tags: [Pacientes]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - identificacion
+ *               - password
+ *             properties:
+ *               identificacion:
+ *                 type: string
+ *                 example: Radiología
+ *               password:
+ *                 type: string
+ *                 example: 123456
+ *     responses:
+ *       200:
+ *         description: Inicio de sesión exitoso
+ *       401:
+ *         description: credenciales invalidas
+ *       500:
+ *         description: Error interno del servidor
+ */
+router.post("/login", handler.login);
+
 export default router;

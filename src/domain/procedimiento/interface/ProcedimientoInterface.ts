@@ -6,6 +6,7 @@ export default interface ProcedimientoInterface {
     id?: number;
     nombre: string;
     categoria_id: number;
+    descripcion: string;
     paciente_id: number;
     imagenes: ImagenInterface[];
     documentos: DocumentoInterface[];

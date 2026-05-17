@@ -133,4 +133,5 @@ router.put("/:id", handler.update);
  */
 router.delete("/:id", handler.delete);
 
+router.get("/byProcedimiento/:id", handler.getByProcedimiento)
 export default router;

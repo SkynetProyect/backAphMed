@@ -26,4 +26,7 @@ export class ProcedimientoDto {
   @Min(1)
   paciente_id!: number;
 
+  @IsString()
+  descripcion!: string;
+
 }

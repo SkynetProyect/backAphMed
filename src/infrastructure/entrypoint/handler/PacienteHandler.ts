@@ -69,4 +69,18 @@ export default class PacienteHandler {
             res.json(new Response(500, error as string, null));
         }
     };
+
+    login = async (req: Request, res: ExpressResponse) => {
+        try {
+            const { identificacion, password } = req.body;
+            const data = await this.usecase.login(identificacion, password);
+            if (data.id) {
+                res.json(new Response(200, "Login exitoso", data));
+            } else {
+                res.status(200).json(new Response(401, "Credenciales inválidas", null));
+            }
+        } catch (error) {
+            res.json(new Response(500, error as string, null));
+        }
+    };
 }

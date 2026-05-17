@@ -6,4 +6,5 @@ export default interface PacienteGateway{
     create(Paciente: Paciente): Promise<Paciente>;
     update(Paciente: Paciente): Promise<Paciente>;
     delete(id: number): Promise<boolean>;
+    login(identificacion: string, password: string): Promise<Paciente>;
 }

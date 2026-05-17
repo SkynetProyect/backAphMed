@@ -22,5 +22,8 @@ export default class Adapter implements ProcedimientoGateway {
         await this.repo.delete(id);
         return true;
     }
+    async getByPaciente(paciente_id: number): Promise<Array<Procedimiento>>{
+            return this.repo.findBy({ paciente_id: paciente_id });
+    };
 
 }

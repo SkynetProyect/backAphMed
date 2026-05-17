@@ -6,4 +6,5 @@ export default interface ProcedimientoGateway{
     create(Procedimiento: Procedimiento): Promise<Procedimiento>;
     update(Procedimiento: Procedimiento): Promise<Procedimiento>;
     delete(id: number): Promise<boolean>;
+    getByPaciente(paciente_id: number): Promise<Array<Procedimiento>>;
 }

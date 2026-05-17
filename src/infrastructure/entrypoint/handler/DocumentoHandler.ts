@@ -33,8 +33,14 @@ export default class DocumentoHandler {
     
     create = async (req: Request, res: ExpressResponse) => {
         try {
+            if (!req.file) {
+                res.status(400).json(
+                    new Response(400, "Debe enviar un archivo", null)
+                );
+                return;
+            }
             const fileBuffer = req.file?.buffer;
-            const nombre: string = `documentos/${Date.now()}_${req.file?.originalname}`;
+            const nombre: string = `documentos/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
             const dto = plainToInstance(DocumentoDto, req.body);
             const respuesta = await uploadFile(fileBuffer as Buffer, nombre);
             console.log("URL de archivo subido:", respuesta);
@@ -82,7 +88,7 @@ export default class DocumentoHandler {
 
     getByProcedimiento = async (req: Request, res: ExpressResponse) => {
         try {
-            const procedimiento_id = Number(req.params.procedimiento_id);
+            const procedimiento_id = Number(req.params.id);
             const data = await this.usecase.getByProcedimiento(procedimiento_id);
 
             res.json(new Response(200, "Documentos obtenidas exitosamente", data));

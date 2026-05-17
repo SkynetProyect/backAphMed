@@ -21,4 +21,7 @@ export default class Paciente implements PacienteInterface {
 
     @Column({ unique: true })
     identificacion!: string;
+    
+    @Column()
+    clave?: string;
 }

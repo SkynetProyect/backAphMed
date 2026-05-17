@@ -73,7 +73,7 @@ export default class VideoHandler {
 
     getByProcedimiento = async (req: Request, res: ExpressResponse) => {
         try {
-            const procedimiento_id = Number(req.params.procedimiento_id);
+            const procedimiento_id = Number(req.params.id);
             const data = await this.usecase.getByProcedimiento(procedimiento_id);
 
             res.json(new Response(200, "Videos obtenidas exitosamente", data));
@@ -81,4 +81,5 @@ export default class VideoHandler {
             res.json(new Response(500, error as string, null));
         }
     }
+
 }

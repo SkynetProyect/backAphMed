@@ -22,14 +22,13 @@ export default class Procedimiento {
     @Column()
     nombre!: string;
 
-    // 🔹 Relación con Categoria
-    @ManyToOne(() => Categoria)
-    @JoinColumn({ name: "categoria_id" })
-    categoria_id!: Categoria;
+    @Column({ nullable: true })
+    descripcion!:string;
 
-    // 🔹 Relación con Paciente
-    @ManyToOne(() => Paciente)
-    @JoinColumn({ name: "paciente_id" })
-    paciente_id!: Paciente;
+    @Column({ name: "categoria_id" })
+    categoria_id!: number;
+
+    @Column({ name: "paciente_id" })
+    paciente_id!: number;
 
 }
