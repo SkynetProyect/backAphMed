@@ -24,4 +24,7 @@ export default class Paciente implements PacienteInterface {
     
     @Column()
     clave?: string;
+
+    @Column({default: false})
+    is_doctor?: boolean;
 }

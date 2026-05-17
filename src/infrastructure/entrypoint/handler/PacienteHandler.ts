@@ -75,8 +75,8 @@ export default class PacienteHandler {
 
     login = async (req: Request, res: ExpressResponse) => {
         try {
-            const { identificacion, password } = req.body;
-            const data = await this.usecase.login(identificacion, password);
+            const { identificacion, password, is_doctor = false } = req.body;
+            const data = await this.usecase.login(identificacion, password, is_doctor);
             if (data.id) {
                 const token = jwt.sign({ id: data.id, identificacion: data.identificacion }, JWT_SECRET, { expiresIn: "1h" });
                 res.json(new Response(200, "Login exitoso", { paciente: data, token }));

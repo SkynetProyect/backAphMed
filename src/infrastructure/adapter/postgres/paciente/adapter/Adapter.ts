@@ -23,8 +23,8 @@ export default class Adapter implements PacienteGateway {
         return true;
     }
 
-    async login(identificacion: string, password: string): Promise<Paciente>{
-        const objeto = await this.repo.findOneBy({ identificacion: identificacion, clave: password });
+    async login(identificacion: string, password: string, is_doctor:boolean): Promise<Paciente>{
+        const objeto = await this.repo.findOneBy({ identificacion: identificacion, clave: password, is_doctor:is_doctor });
         return objeto ?? new Paciente();
     };
 

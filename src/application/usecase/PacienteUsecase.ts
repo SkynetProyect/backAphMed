@@ -27,7 +27,7 @@ export default class PacienteUsecase {
     public delete(id: number): Promise<boolean> {
         return this.gateway.delete(id);
     }
-    public login(identificacion: string, password: string): Promise<Paciente> {
-        return this.gateway.login(identificacion, password);
+    public login(identificacion: string, password: string, is_doctor:boolean): Promise<Paciente> {
+        return this.gateway.login(identificacion, password, is_doctor);
     }
 }
