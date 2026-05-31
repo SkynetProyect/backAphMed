@@ -1,7 +1,8 @@
+import { PaginatedResult } from "../../pagination/PaginatedResult";
 import Paciente from "../model/Paciente";
 
 export default interface PacienteGateway{
-    getAll(): Promise<Array<Paciente>>;
+    getAll(page: number, pageSize: number): Promise<PaginatedResult<Paciente>>;
     getById(id: number): Promise<Paciente>;
     create(Paciente: Paciente): Promise<Paciente>;
     update(Paciente: Paciente): Promise<Paciente>;

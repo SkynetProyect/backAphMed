@@ -19,7 +19,10 @@ export const jwtGuard = (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
+        
         (req as any).user = decoded;
+
+        
         next();
     } catch (error) {
         return res.status(401).json({ codigo: 401, mensaje: "Token inválido", data: null });

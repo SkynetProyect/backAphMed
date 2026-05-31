@@ -162,5 +162,26 @@ router.delete("/:id", handler.delete);
  */
 router.get("/byProcedimiento/:id", handler.getByProcedimiento)
 
+/**
+ * @swagger
+ * /videos/{byProcedimiento/id}:
+ *   delete:
+ *     summary: Eliminar un médico
+ *     tags: [Imagens]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del médico
+ *     responses:
+ *       200:
+ *         description: Médico obtenido exitosamente
+ *       404:
+ *         description: Médico no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.delete("/byProcedimiento/:id", handler.deleteByProcedimiento)
 export default router;

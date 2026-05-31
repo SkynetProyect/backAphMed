@@ -1,5 +1,6 @@
 import PacienteGateway from "../../domain/paciente/gateway/PacienteGateway";
 import Paciente from "../../domain/paciente/model/Paciente";
+import { PaginatedResult } from "../../domain/pagination/PaginatedResult";
 
 export default class PacienteUsecase {
     private readonly gateway: PacienteGateway;
@@ -8,8 +9,11 @@ export default class PacienteUsecase {
         this.gateway = gateway;
     }
 
-    public getAll(): Promise<Array<Paciente>> {
-        return this.gateway.getAll();
+    getAll(
+        page: number,
+        pageSize: number
+    ): Promise<PaginatedResult<Paciente>> {
+        return this.gateway.getAll(page, pageSize);
     }
 
     public getById(id: number): Promise<Paciente> {

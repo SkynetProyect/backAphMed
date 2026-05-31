@@ -14,8 +14,18 @@ export default class PacienteHandler {
 
     getAll = async (req: Request, res: ExpressResponse) => {
         try {
-            const data = await this.usecase.getAll();
-            res.json(new Response(200, "Pacientes obtenidas exitosamente", data));
+            const page = Number(req.query.page) || 1;
+            const pageSize = Number(req.query.pageSize) || 20;
+
+            const data = await this.usecase.getAll(page, pageSize);
+
+            res.json(
+                new Response(
+                    200,
+                    "Pacientes obtenidas exitosamente",
+                    data
+                )
+            );
         } catch (error) {
             res.json(new Response(500, error as string, null));
         }
@@ -78,7 +88,7 @@ export default class PacienteHandler {
             const { identificacion, password, is_doctor = false } = req.body;
             const data = await this.usecase.login(identificacion, password, is_doctor);
             if (data.id) {
-                const token = jwt.sign({ id: data.id, identificacion: data.identificacion }, JWT_SECRET, { expiresIn: "1h" });
+                const token = jwt.sign({ id: data.id, identificacion: data.identificacion, is_doctor: data.is_doctor }, JWT_SECRET, { expiresIn: "1h" });
                 res.json(new Response(200, "Login exitoso", { paciente: data, token }));
             } else {
                 res.status(401).json(new Response(401, "Credenciales inválidas", null));

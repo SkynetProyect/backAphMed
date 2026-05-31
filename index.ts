@@ -16,12 +16,14 @@ import typeccRouter from "./src/infrastructure/entrypoint/router/TypeccRouter";
 import videoRouter from "./src/infrastructure/entrypoint/router/VideoRouter";
 import { ServerSocket } from "./src/infrastructure/entrypoint/socket/socket";
 import { AppDataSource } from "./src/infrastructure/adapter/postgres/DataSource";
+import { roleGuard } from "./src/infrastructure/entrypoint/middleware/roleguard";
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(jwtGuard);
+app.use(roleGuard);
 const httpServer = http.createServer(app);
 
 

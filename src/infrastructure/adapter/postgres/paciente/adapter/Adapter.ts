@@ -5,9 +5,21 @@ import { AppDataSource } from "../../DataSource";
 export default class Adapter implements PacienteGateway {
     private readonly repo = AppDataSource.getRepository(Paciente);
 
-    async getAll(): Promise<Array<Paciente>> {
-        return this.repo.find();
+    async getAll(page: number, pageSize: number) {
+        const [data, total] = await this.repo.findAndCount({
+            skip: (page - 1) * pageSize,
+            take: pageSize,
+        });
+
+        return {
+            data,
+            total,
+            page,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+        };
     }
+    
     async getById(id: number): Promise<Paciente> {
         const objeto = await this.repo.findOneBy({ id });
         return objeto ?? new Paciente();
