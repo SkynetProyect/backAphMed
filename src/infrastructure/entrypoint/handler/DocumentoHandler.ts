@@ -58,8 +58,6 @@ export default class DocumentoHandler {
                 req.file.mimetype
             );
 
-            console.log("URL de archivo subido:", respuesta);
-
             if (!respuesta) {
                 res.status(500).json(
                     new Response(500, "Error subiendo archivo", null)
@@ -143,8 +141,7 @@ export default class DocumentoHandler {
         try {
             const procedimiento_id = Number(req.params.id);
             const data = await this.usecase.getByProcedimiento(procedimiento_id);
-            console.log(data);
-            console.info(data);
+
 
             res.json(new Response(200, "Documentos obtenidas exitosamente", data));
         } catch (error) {

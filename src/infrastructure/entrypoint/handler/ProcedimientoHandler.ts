@@ -5,12 +5,11 @@ import { validate } from "class-validator";
 import { plainToInstance } from "class-transformer";
 import { ProcedimientoDto } from "../dto/ProcedimientoDto";
 import Procedimiento from "../../../domain/procedimiento/model/Procedimiento";
-import Categoria from "../../../domain/categoria/model/Categoria";
-import Paciente from "../../../domain/paciente/model/Paciente";
 
 export default class ProcedimientoHandler {
 
-    constructor(private readonly usecase: ProcedimientoUsecase) {}
+    constructor(private readonly usecase: ProcedimientoUsecase
+    ) {}
 
     private mapDtoToProcedimiento(dto: ProcedimientoDto): Procedimiento {
         const procedimiento = new Procedimiento();
@@ -27,9 +26,7 @@ export default class ProcedimientoHandler {
     getAll = async (req: Request, res: ExpressResponse) => {
         try {
             const data = await this.usecase.getAll();
-            
-            console.log(data);
-            console.info(data);
+        
             res.json(new Response(200, "Procedimientos obtenidas exitosamente", data));
         } catch (error) {
             res.json(new Response(500, error as string, null));
@@ -83,7 +80,7 @@ export default class ProcedimientoHandler {
         try {
             const id = Number(req.params.id);
             const result = await this.usecase.delete(id);
-
+            
             res.json(new Response(200, "Procedimiento eliminada exitosamente", result));
         } catch (error) {
             res.json(new Response(500, error as string, null));

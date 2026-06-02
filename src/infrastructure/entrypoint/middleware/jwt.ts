@@ -5,10 +5,15 @@ const JWT_SECRET = process.env.JWT_SECRET || "default_jwt_secret";
 
 export const jwtGuard = (req: Request, res: Response, next: NextFunction) => {
     const requestPath = req.originalUrl.split("?")[0].replace(/\/+$/, "");
-    if (requestPath === "/pacientes/login" || requestPath.startsWith("/apidocs") || 
-        requestPath === "/tipocedulas" || requestPath === "/apidocs") {
+    const method = req.method;
+    if (
+        (requestPath === "/pacientes/login" && method === "POST") ||
+        (requestPath === "/pacientes" && method === "POST") || // register
+        requestPath.startsWith("/apidocs") ||
+        requestPath === "/tipocedulas"
+        ) {
         return next();
-    }
+        }
 
     const authHeader = req.headers.authorization ?? "";
     const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : authHeader;
@@ -19,7 +24,6 @@ export const jwtGuard = (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        
         (req as any).user = decoded;
 
         

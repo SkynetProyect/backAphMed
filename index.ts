@@ -36,9 +36,8 @@ app.use("/videos", videoRouter);
 
 AppDataSource.initialize()
     .then(() => {
-        console.log("DB conectada correctamente");
         app.listen(3000, () => {
-            console.log("API corriendo en http://localhost:3000");
+            console.log(" ---->>>>  API RUNNING  <<<<---- ");
         });
     })
     .catch((error) => {

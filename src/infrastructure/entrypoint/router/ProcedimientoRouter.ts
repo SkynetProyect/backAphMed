@@ -111,7 +111,7 @@ router.post("/", handler.create);
  *       500:
  *         description: Error interno del servidor
  */
-router.put("/:id", handler.update);
+router.put("/", handler.update);
 
 /**
  * @swagger

@@ -1,5 +1,8 @@
+import Documento from "../../../../../domain/documento/model/Documento";
+import Imagen from "../../../../../domain/imagen/model/Imagen";
 import ProcedimientoGateway from "../../../../../domain/procedimiento/gateway/ProcedimientoGateway";
 import Procedimiento from "../../../../../domain/procedimiento/model/Procedimiento";
+import Video from "../../../../../domain/video/model/Video";
 import { AppDataSource } from "../../DataSource";
 
 export default class Adapter implements ProcedimientoGateway {
@@ -19,6 +22,12 @@ export default class Adapter implements ProcedimientoGateway {
         return this.repo.save(Procedimiento);
     }
     async delete(id: number): Promise<boolean> {
+        const repoimage = AppDataSource.getRepository(Imagen); 
+        const repovideo = AppDataSource.getRepository(Video);
+        const repodocumento = AppDataSource.getRepository(Documento);
+        await repoimage.delete({ procedimiento_id: id });
+        await repovideo.delete({ procedimiento_id: id });
+        await repodocumento.delete({ procedimiento_id: id });
         await this.repo.delete(id);
         return true;
     }

@@ -57,8 +57,6 @@ export default class VideoHandler {
                 req.file.mimetype
             );
 
-            console.log("URL de archivo subido:", respuesta);
-
             if (!respuesta) {
                 res.status(500).json(
                     new Response(500, "Error subiendo archivo", null)
