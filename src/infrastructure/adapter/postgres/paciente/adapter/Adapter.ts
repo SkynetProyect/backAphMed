@@ -19,6 +19,10 @@ export default class Adapter implements PacienteGateway {
             totalPages: Math.ceil(total / pageSize),
         };
     }
+
+    async getDoctors(): Promise<Paciente[]> {   
+        return this.repo.find({ where: { is_doctor: true } });
+    }
     
     async getById(id: number): Promise<Paciente> {
         const objeto = await this.repo.findOneBy({ id });

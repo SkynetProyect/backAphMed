@@ -3,6 +3,7 @@ import Paciente from "../model/Paciente";
 
 export default interface PacienteGateway{
     getAll(page: number, pageSize: number): Promise<PaginatedResult<Paciente>>;
+    getDoctors(): Promise<Paciente[]>; 
     getById(id: number): Promise<Paciente>;
     create(Paciente: Paciente): Promise<Paciente>;
     update(Paciente: Paciente): Promise<Paciente>;

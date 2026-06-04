@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 const PATIENT_ALLOWED_ROUTES: { method: string; pattern: RegExp }[] = [
     { method: "GET",  pattern: /^\/categorias$/ },
+    { method: "GET",  pattern: /^\/apidocs$/ },
     { method: "GET",  pattern: /^\/categorias\/[^/]+$/ },
     { method: "GET",  pattern: /^\/documentos\/[^/]+$/ },
     { method: "POST", pattern: /^\/documentos$/ },
@@ -21,6 +22,7 @@ const PATIENT_ALLOWED_ROUTES: { method: string; pattern: RegExp }[] = [
     { method: "GET", pattern: /^\/procedimiento\/paciente\/[^/]+$/ },
     { method: "GET", pattern: /^\/procedimiento\/[^/]+$/ },
     { method: "GET", pattern: /^\/procedimientos\/[^/]+$/ },
+    { method: "GET", pattern: /^\/apidocs\/[^/]+$/ },
 ];
 
 export const roleGuard = (req: Request, res: Response, next: NextFunction) => {
@@ -38,7 +40,7 @@ export const roleGuard = (req: Request, res: Response, next: NextFunction) => {
     );
 
     if (!isAllowed) {
-        return res.status(403).json({ codigo: 403, mensaje: "Acceso denegado", data: null });
+        return res.status(403).json({ codigo: 403, mensaje: "Acceso denegado desde middleware", data: null });
     }
 
     next();

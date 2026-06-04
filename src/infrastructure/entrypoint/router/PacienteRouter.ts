@@ -34,6 +34,20 @@ router.get("/", handler.getAll);
 
 /**
  * @swagger
+ * /pacientes/doctors:
+ *   get:
+ *     summary: Obtener todos los médicos
+ *     tags: [Pacientes]
+ *     responses:
+ *       200:
+ *         description: Lista de médicos obtenida exitosamente
+ *       500:
+ *         description: Error interno del servidor
+ */
+router.get("/doctors", handler.getDoctors);
+
+/**
+ * @swagger
  * /pacientes/{id}:
  *   get:
  *     summary: Obtener un médico por ID

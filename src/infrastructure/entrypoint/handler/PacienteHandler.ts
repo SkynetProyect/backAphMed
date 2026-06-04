@@ -31,6 +31,23 @@ export default class PacienteHandler {
         }
     };
 
+    getDoctors = async (req: Request, res: ExpressResponse) => {
+   
+        try {
+            const data = await this.usecase.getDoctors();
+
+            res.json(
+                new Response(
+                    200,
+                    "doctores obtenidas exitosamente",
+                    data
+                )
+            );
+        } catch (error) {
+            res.json(new Response(500, error as string, null));
+        }
+    };
+
     getById = async (req: Request, res: ExpressResponse) => {
         try {
             const id = Number(req.params.id);

@@ -16,6 +16,11 @@ export default class PacienteUsecase {
         return this.gateway.getAll(page, pageSize);
     }
 
+    getDoctors(
+    ): Promise<Paciente[]> {
+        return this.gateway.getDoctors();
+    }
+
     public getById(id: number): Promise<Paciente> {
         return this.gateway.getById(id);
     }

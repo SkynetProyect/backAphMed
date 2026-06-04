@@ -9,7 +9,7 @@ export const jwtGuard = (req: Request, res: Response, next: NextFunction) => {
     if (
         (requestPath === "/pacientes/login" && method === "POST") ||
         (requestPath === "/pacientes" && method === "POST") || // register
-        requestPath.startsWith("/apidocs") ||
+        requestPath.startsWith("/apidocs/") ||  requestPath.startsWith("/apidocs") ||
         requestPath === "/tipocedulas"
         ) {
         return next();
@@ -29,6 +29,7 @@ export const jwtGuard = (req: Request, res: Response, next: NextFunction) => {
         
         next();
     } catch (error) {
+        console.log(error);
         return res.status(401).json({ codigo: 401, mensaje: "Token inválido", data: null });
     }
 };
